@@ -3,6 +3,7 @@
 
 
 import numpy as np
+import sympy as sp
 import IPython.display as d
 
 
@@ -88,6 +89,21 @@ class Output(object):
         else:
             s = ''
         s += bmatrix(np.round(value, self.decimals))
+        self.elements.append('$$' + s + '$$')
+
+    def addSPMatrix(self, value, name=None):
+        """@todo: Docstring for addMatrix.
+
+        :value: @todo
+        :name: @todo
+        :returns: @todo
+
+        """
+        if name:
+            s = name + ' = '
+        else:
+            s = ''
+        s += bmatrix(value)
         self.elements.append('$$' + s + '$$')
 
     def addValue(self, value, name=None, unit=None):
