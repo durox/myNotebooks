@@ -27,10 +27,30 @@ def K_eingesp(E, A, I, l, element='all'):
         return K
 
 
+def K_gelenk(E, A, I, l, element='all'):
+    """Stabsteifigkeitsmatrix für rechtsseitigges Momentennullfeld"""
+    K = np.matrix([[E*A/l, 0, 0, -E*A/l, 0, 0],
+                  [0, 3*E*I/(l**3), 3*E*I/(l**2), 0, -3*E*I/(l**3), 0],
+                  [0, 3*E*I/(l**2), 3*E*I/l, 0, -3*E*I/(l**2), 0],
+                  [-E*A/l, 0, 0, E*A/l, 0, 0],
+                  [0, -3*E*I/(l**3), -l*E*I/(l**2), 0, 3*E*I/(l**3), 0],
+                  [0, 0, 0, 0, 0, 0]])
+    if element=='iki':
+        return K[0:3, 0:3]
+    elif element=='ikk':
+        return K[0:3, 3:]
+    elif element=='kii':
+        return K[3:, 0:3]
+    elif element=='kik':
+        return K[3:, 3:]
+    elif element=='all':
+        return K
+
+
 def T(alpha):
     """Transformationsmatrix in Abhängigkeit von Drehwinkel Alpha (rad)"""
-    c = np.cos(alpha)
-    s = np.sin(alpha)
+    c = np.round(np.cos(alpha), 8)
+    s = np.round(np.sin(alpha), 8)
     T = np.matrix([[c, s, 0], [-s, c, 0], [0, 0, 1]])
     return T
 
