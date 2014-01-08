@@ -7,6 +7,54 @@ import sympy as sp
 import IPython.display as d
 
 
+def F_eingesp(E, I, l, u, w, p0):
+    """RSK eingespannt Linienlast
+
+    :E: @todo
+    :I: @todo
+    :l: @todo
+    :w: @todo
+    :returns: tupel F1_ik, F2_ik, M3_ik
+
+    """
+    lam = l * (u * w**2 / E / I) ** (1/4)
+    eps = l * np.sqrt(u * w**2 / E / A)
+
+    o1 = (np.cosh(lam) + np.cos(lam)) / 2
+    o2 = (np.sinh(lam) + np.sin(lam)) / 2
+    o3 = (np.cosh(lam) - np.cos(lam)) / 2
+    o4 = (np.sinh(lam) - np.sin(lam)) / 2
+
+    F2_ik = p0*l / lam * (-o2 + o1*o2 - o3*o4) / (o3**2 - o2*o4)
+    M3_ik = p0*l**2 / lam**2 * (o1*o3 - o3 - o4**2) / (o3**2 - o2*o4)
+
+    return 0, F2_ik, M3_ik
+
+
+def F_gelenk(E, I, l, u, w, p0):
+    """RSK gelenkig Linienlast
+
+    :E: @todo
+    :I: @todo
+    :l: @todo
+    :w: @todo
+    :returns: tupel F1_ki, F2_ki, M3_ki
+
+    """
+    lam = l * (u * w**2 / E / I) ** (1/4)
+    eps = l * np.sqrt(u * w**2 / E / A)
+
+    o1 = (np.cosh(lam) + np.cos(lam)) / 2
+    o2 = (np.sinh(lam) + np.sin(lam)) / 2
+    o3 = (np.cosh(lam) - np.cos(lam)) / 2
+    o4 = (np.sinh(lam) - np.sin(lam)) / 2
+
+    F2_ki = p0*l / lam * (o1**2 - o1 - o2*o4) / (o2*o3 - o1*o4)
+    M3_ki = 0
+
+    return 0, F2_ki, M3_ki
+
+
 def Kw_eingesp_kik(E, A, I, l, u, w):
     """dyn. Steifigkeit
 
