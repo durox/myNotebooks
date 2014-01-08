@@ -7,6 +7,60 @@ import sympy as sp
 import IPython.display as d
 
 
+def Kw_eingesp_kik(E, A, I, l, u, w):
+    """dyn. Steifigkeit
+
+    :E: @todo
+    :A: @todo
+    :I: @todo
+    :l: @todo
+    :u: @todo
+    :w: @todo
+    :returns: @todo
+
+    """
+    lam = l * (u * w**2 / E / I) ** (1/4)
+    eps = l * np.sqrt(u * w**2 / E / A)
+
+    o1 = (np.cosh(lam) + np.cos(lam)) / 2
+    o2 = (np.sinh(lam) + np.sin(lam)) / 2
+    o3 = (np.cosh(lam) - np.cos(lam)) / 2
+    o4 = (np.sinh(lam) - np.sin(lam)) / 2
+
+    kik = np.matrix([[E*A/l * eps/np.tan(eps), 0, 0],
+                     [0, E*I*lam**3/l**3 * (o1*o2 - o3*o4)/(o3**2 - o2*o4), E*I*lam**2/l**2 * (o4**2 - o1*o3)/(o3**2 - o2*o4)],
+                     [0, E*I*lam**2/l**2 * (o4**2 - o1*o3)/(o3**2 - o2*o4), E*I*lam/l * (o2*o3 - o1*o4)/(o3**2 - o2*o4)]])
+
+    return kik
+
+
+def Kw_gelenk_kik(E, A, I, l, u, w):
+    """dyn. Steifigkeit Gelenk an k
+
+    :E: @todo
+    :A: @todo
+    :I: @todo
+    :l: @todo
+    :u: @todo
+    :w: @todo
+    :returns: @todo
+
+    """
+    lam = l * (u * w**2 / E / I) ** (1/4)
+    eps = l * np.sqrt(u * w**2 / E / A)
+
+    o1 = (np.cosh(lam) + np.cos(lam)) / 2
+    o2 = (np.sinh(lam) + np.sin(lam)) / 2
+    o3 = (np.cosh(lam) - np.cos(lam)) / 2
+    o4 = (np.sinh(lam) - np.sin(lam)) / 2
+
+    kik = np.matrix([[E*A/l * eps/np.tan(eps), 0, 0],
+                     [0, E*I*lam**3/l**3 * (o1**2 - o2*o4)/(o2*o3 - o1*o4), 0],
+                     [0, 0, 0]])
+
+    return kik
+
+
 def K_eingesp(E, A, I, l, element='all'):
     """Stabsteifigkeitsmatrix für beidseitig eingespannten Stab"""
     K = np.matrix([[E*A/l, 0, 0, -E*A/l, 0, 0],
