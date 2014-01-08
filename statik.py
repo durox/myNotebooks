@@ -63,7 +63,7 @@ def Kw_gelenk_kik(E, A, I, l, u, w):
 
 def KT_eingesp(E, A, I, l, u, element='all'):
     """appr. Trennung, statischer Teil, eingesp Stab"""
-    lam2 = l**2 / I / A
+    lam2 = l**2 / (I / A)
     K = np.matrix([[lam2, 0, 0, -lam2, 0, 0],
                   [0, 12, 6*l, 0, -12, 6*l],
                   [0, 6*l, 4*l**2, 0, -6*l, 2*l**2],
@@ -104,7 +104,7 @@ def MT_eingesp(E, A, I, l, u, element='all'):
 
 def KT_gelenk(E, A, I, l, u, element='all'):
     """appr. Trennung, statischer Teil, gelenkiger Stab"""
-    lam2 = l**2 / I / A
+    lam2 = l**2 / (I / A)
     K = np.matrix([[lam2, 0, 0, -lam2, 0, 0],
                   [0, 3, 3*l, 0, -3, 0],
                   [0, 3*l, 3*l**2, 0, -3*l, 0],
