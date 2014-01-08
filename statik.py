@@ -18,7 +18,6 @@ def F_eingesp(E, I, l, u, w, p0):
 
     """
     lam = l * (u * w**2 / E / I) ** (1/4)
-    eps = l * np.sqrt(u * w**2 / E / A)
 
     o1 = (np.cosh(lam) + np.cos(lam)) / 2
     o2 = (np.sinh(lam) + np.sin(lam)) / 2
@@ -42,7 +41,6 @@ def F_gelenk(E, I, l, u, w, p0):
 
     """
     lam = l * (u * w**2 / E / I) ** (1/4)
-    eps = l * np.sqrt(u * w**2 / E / A)
 
     o1 = (np.cosh(lam) + np.cos(lam)) / 2
     o2 = (np.sinh(lam) + np.sin(lam)) / 2
