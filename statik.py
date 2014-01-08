@@ -61,6 +61,90 @@ def Kw_gelenk_kik(E, A, I, l, u, w):
     return kik
 
 
+def KT_eingesp(E, A, I, l, u, element='all'):
+    """appr. Trennung, statischer Teil, eingesp Stab"""
+    lam = l**2 / I / A
+    K = np.matrix([[lam**2, 0, 0, -lam**2, 0, 0],
+                  [0, 12, 6*l, 0, -12, 6*l],
+                  [0, 6*l, 4*l**2, 0, -6*l, 2*l**2],
+                  [-lam**2, 0, 0, lam**2, 0, 0],
+                  [0, -12, -6*l, 0, 12, -6*l],
+                  [0, 6*l, 2*l**2, 0, -6*l, 4*l**2]]) * E*I/l**3
+    if element=='iki':
+        return K[0:3, 0:3]
+    elif element=='ikk':
+        return K[0:3, 3:]
+    elif element=='kii':
+        return K[3:, 0:3]
+    elif element=='kik':
+        return K[3:, 3:]
+    elif element=='all':
+        return K
+
+
+def MT_eingesp(E, A, I, l, u, element='all'):
+    """appr. Trennung, dynamischer Teil, eingespannter Stab"""
+    lam = l**2 / I / A
+    K = np.matrix([[140, 0, 0, 70, 0, 0],
+                  [0, 156, 22*l, 0, 54, -13*l],
+                  [0, 22*l, 4*l**2, 0, 13*l, -3*l**2],
+                  [70, 0, 0, 140, 0, 0],
+                  [0, 54, 13*l, 0, 156, -22*l],
+                  [0, -13*l, -3*l**2, 0, -22*l, 4*l**2]]) * u*l/420
+    if element=='iki':
+        return K[0:3, 0:3]
+    elif element=='ikk':
+        return K[0:3, 3:]
+    elif element=='kii':
+        return K[3:, 0:3]
+    elif element=='kik':
+        return K[3:, 3:]
+    elif element=='all':
+        return K
+
+
+def KT_gelenk(E, A, I, l, u, element='all'):
+    """appr. Trennung, statischer Teil, gelenkiger Stab"""
+    lam = l**2 / I / A
+    K = np.matrix([[lam**2, 0, 0, -lam**2, 0, 0],
+                  [0, 3, 3*l, 0, -3, 0],
+                  [0, 3*l, 3*l**2, 0, -3*l, 0],
+                  [-lam**2, 0, 0, lam**2, 0, 0],
+                  [0, -3, -3*l, 0, 3, 0],
+                  [0, 0, 0, 0, 0, 0]]) * E*I/l**3
+    if element=='iki':
+        return K[0:3, 0:3]
+    elif element=='ikk':
+        return K[0:3, 3:]
+    elif element=='kii':
+        return K[3:, 0:3]
+    elif element=='kik':
+        return K[3:, 3:]
+    elif element=='all':
+        return K
+
+
+def MT_gelenk(E, A, I, l, u, element='all'):
+    """appr. Trennung, dynamischer Teil, gelenkiger Stab"""
+    lam = l**2 / I / A
+    K = np.matrix([[280, 0, 0, 140, 0, 0],
+                  [0, 630, 72*l, 0, 117, 0],
+                  [0, 72*l, 16*l**2, 0, 33*l, 0],
+                  [140, 0, 0, 280, 0, 0],
+                  [0, 117, 33*l, 0, 198, 0],
+                  [0, 0, 0, 0, 0, 0]]) * u*l/840
+    if element=='iki':
+        return K[0:3, 0:3]
+    elif element=='ikk':
+        return K[0:3, 3:]
+    elif element=='kii':
+        return K[3:, 0:3]
+    elif element=='kik':
+        return K[3:, 3:]
+    elif element=='all':
+        return K
+
+
 def K_eingesp(E, A, I, l, element='all'):
     """Stabsteifigkeitsmatrix für beidseitig eingespannten Stab"""
     K = np.matrix([[E*A/l, 0, 0, -E*A/l, 0, 0],
